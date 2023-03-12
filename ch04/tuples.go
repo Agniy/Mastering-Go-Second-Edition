@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// retThree returns three values  - 2x, x^2, -x
 func retThree(x int) (int, int, int) {
 	return 2 * x, x * x, -x
 }

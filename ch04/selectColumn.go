@@ -9,6 +9,11 @@ import (
 	"strings"
 )
 
+/*
+Usage example: selectColumn 2 file1 file2 file3:
+
+	go run selectColumn.go 4 /var/logs/keybagd.log.0 /var/logs/keybagd.log.1
+*/
 func main() {
 	arguments := os.Args
 	if len(arguments) < 2 {
