@@ -33,10 +33,11 @@ func main() {
 		defer f.Close()
 
 		r := bufio.NewReader(f)
+		hasToBreak := false
 		for {
 			line, err := r.ReadString('\n')
 			if err == io.EOF {
-				break
+				hasToBreak = true
 			} else if err != nil {
 				fmt.Printf("error reading file %s", err)
 				break
@@ -44,10 +45,15 @@ func main() {
 
 			ip := findIP(line)
 			trial := net.ParseIP(ip)
+			fmt.Println(line, ": ", ip, trial, trial.To4())
 			if trial.To4() == nil {
 				continue
 			}
 			fmt.Println(ip)
+
+			if hasToBreak {
+				break
+			}
 		}
 	}
 }
