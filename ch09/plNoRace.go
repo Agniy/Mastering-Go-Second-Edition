@@ -5,38 +5,35 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
-	"time"
 )
 
-var CLOSEA = false
-
-var DATA = make(map[int]bool)
+var DATA2 = make(map[int]bool)
 
 var signal chan struct{}
 
-func random(min, max int) int {
+func random2(min, max int) int {
 	return rand.Intn(max-min) + min
 }
 
-func first(min, max int, out chan<- int) {
+func first2(min, max int, out chan<- int) {
 	for {
 		select {
 		case <-signal:
 			close(out)
 			return
-		case out <- random(min, max):
+		case out <- random2(min, max):
 		}
 	}
 }
 
-func second(out chan<- int, in <-chan int) {
+func second2(out chan<- int, in <-chan int) {
 	for x := range in {
-		_, ok := DATA[x]
+		_, ok := DATA2[x]
 		if ok {
 			signal <- struct{}{}
 		} else {
-			fmt.Print(x, " ")
-			DATA[x] = true
+			//fmt.Print(x, " ")
+			DATA2[x] = true
 			out <- x
 		}
 	}
@@ -44,13 +41,14 @@ func second(out chan<- int, in <-chan int) {
 	close(out)
 }
 
-func third(in <-chan int) {
+func third2(in <-chan int) {
 	var sum int
 	sum = 0
 	for x2 := range in {
 		sum = sum + x2
 	}
-	fmt.Printf("The sum of the random numbers is %d.\n", sum)
+	fmt.Printf("The sum of the random2random2 numbers is %d.\n", sum)
+	fmt.Println("Len of DATA is: ", len(DATA2))
 }
 
 func main() {
@@ -68,11 +66,10 @@ func main() {
 
 	signal = make(chan struct{})
 
-	rand.Seed(time.Now().UnixNano())
 	A := make(chan int)
 	B := make(chan int)
 
-	go first(n1, n2, A)
-	go second(B, A)
-	third(B)
+	go first2(n1, n2, A)
+	go second2(B, A)
+	third2(B)
 }
