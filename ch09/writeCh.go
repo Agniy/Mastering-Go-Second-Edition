@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func writeToChannel(c chan int, x int) {
+func writeToChannel2(c chan int, x int) {
 	fmt.Println(x)
 	c <- x
 	close(c)
@@ -14,6 +14,6 @@ func writeToChannel(c chan int, x int) {
 
 func main() {
 	c := make(chan int)
-	go writeToChannel(c, 10)
+	go writeToChannel2(c, 10)
 	time.Sleep(1 * time.Second)
 }
